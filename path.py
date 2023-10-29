@@ -1,8 +1,11 @@
 import os
 import glob
 
-def use_glob(dirname):
-    targets = glob.glob(os.path.join(dirname, "*.csv"))
+
+files = os.listdir(path)
+
+def use_glob(dirpath):
+    targets = glob.glob(os.path.join(dirpath, "*.csv"))
     for fpath in targets:
         print('fpath', fpath) # debug
 
@@ -16,9 +19,15 @@ def get_file_dir():
 
 os.makedirs("any/path", exist_ok=True)
 
+def my_makedirs(fpath):
+    dirname = os.path.dirname(fpath)
+    if dirname:
+        os.makedirs(dirname, exist_ok=True)
+
 os.path.exists(fpath)
 
 os.remove(fpath)
+shutil.rmtree(dirpath)
 
 if fpath.endswith(".xlsx"):
 

@@ -1,7 +1,7 @@
 import openpyxl
 
-def read(fname):
-    wb = openpyxl.load_workbook(fname)
+def read(fpath):
+    wb = openpyxl.load_workbook(fpath)
     print('wb.sheetnames', wb.sheetnames) # debug
     ws = wb["Sheet1"]
     ws = wb.active
@@ -10,8 +10,8 @@ def read(fname):
             print('cell.value', cell.value) # debug
         break # for row is None
 
-def read_as_dict_datum(fname, sheet_name=None):
-    wb = openpyxl.load_workbook(fname)
+def read_as_dict_datum(fpath, sheet_name=None):
+    wb = openpyxl.load_workbook(fpath)
     print('wb.sheetnames', wb.sheetnames) # debug
     if sheet_name is None:
         ws = wb.active
@@ -32,18 +32,18 @@ def read_as_dict_datum(fname, sheet_name=None):
     return data
 
 # data: 2-dimension array
-def write(fname, data):
+def write(fpath, data):
     wb = openpyxl.Workbook()
     ws = wb.active
     #ws2 = wb.create_sheet(title="Sheet2")
     for i, row in enumerate(data, 1):
         for j, value in enumerate(row, 1):
             ws.cell(row=i, column=j, value=value)
-    wb.save(fname)
+    wb.save(fpath)
     wb.close()
 
 # data: list of dict
-def write(fname, header, data):
+def write_dict(fpath, header, data):
     wb = openpyxl.Workbook()
     ws = wb.active
     #ws2 = wb.create_sheet(title="Sheet2")
@@ -53,7 +53,7 @@ def write(fname, header, data):
         for j, key in enumerate(header, 1):
             value = row.get(key, None)
             ws.cell(row=i, column=j, value=value)
-    wb.save(fname)
+    wb.save(fpath)
     wb.close()
 
 def load_wb_from_csv(fpath):

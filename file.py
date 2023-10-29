@@ -1,5 +1,7 @@
 
 def read(fname):
+    text = open(fpath, encoding="utf_8_sig").read()
+
     lines = open(fpath, encoding="utf_8_sig").readlines()
     lines = [l.strip() for l in lines]
     return lines
