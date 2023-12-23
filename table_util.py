@@ -3,20 +3,6 @@ import os
 
 import openpyxl
 
-"""
-load
-    as list
-    as dict
-        csv
-        xlsx
-
-write
-    as list
-    as dict
-        csv
-        xlsx
-"""
-
 def load_as_list(fpath):
     if fpath.endswith(".xlsx") and os.path.exists(fpath):
         return load_xlsx_as_list(fpath)
@@ -75,6 +61,13 @@ def load_csv_as_dict(fpath):
     reader = csv.DictReader(open(fpath, encoding="utf_8_sig"))
     data = [row for row in reader]
     return data
+
+def write_xlsx_ll(fpath, data):
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    write_ws_ll(ws, data)
+    wb.save(fpath)
+    wb.close()
 
 def write_ws_ll(ws, data):
     for i, row in enumerate(data, 1):
