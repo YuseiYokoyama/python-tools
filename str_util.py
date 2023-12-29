@@ -3,6 +3,16 @@ def cheetsheet():
     s = 'one two one two one'
     print(s.replace(' ', '-'))
     # one-two-one-two-one
+    
+    print(s.translate(str.maketrans({'o': 'O', 't': 'T'})))
+    # One TwO One TwO One
+
+    print(s.translate(str.maketrans({'o': 'XXX', 't': None})))
+    # XXXne wXXX XXXne wXXX XXXne
+
+    # 第一引数には置換元文字を連結した文字列、第二引数には置換先文字を連結した文字列、第三引数には削除する置換元文字列を連結した文字列を指定する。第三引数は省略可能。
+    print(s.translate(str.maketrans('ot', 'OT', 'n')))
+    # Oe TwO Oe TwO Oe
 
 def get_before(text, phrase):
     i = text.find(phrase)
