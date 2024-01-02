@@ -1,8 +1,18 @@
 import os
 import glob
 
+def cheetsheet():
+    files = os.listdir(path)
 
-files = os.listdir(path)
+    os.makedirs("any/path", exist_ok=True)
+
+    os.path.exists(fpath)
+
+    os.remove(fpath)
+    shutil.rmtree(dirpath)
+
+    if fpath.endswith(".xlsx"):
+        pass
 
 def use_glob(dirpath):
     targets = glob.glob(os.path.join(dirpath, "*.csv"))
@@ -17,17 +27,10 @@ def get_basename(fpath):
 def get_file_dir():
     dirname = os.path.dirname(__file__)
 
-os.makedirs("any/path", exist_ok=True)
-
 def my_makedirs(fpath):
     dirname = os.path.dirname(fpath)
     if dirname:
         os.makedirs(dirname, exist_ok=True)
 
-os.path.exists(fpath)
 
-os.remove(fpath)
-shutil.rmtree(dirpath)
-
-if fpath.endswith(".xlsx"):
 

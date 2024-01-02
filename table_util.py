@@ -62,43 +62,50 @@ def load_csv_as_dict(fpath):
     data = [row for row in reader]
     return data
 
-def write_xlsx_ll(fpath, data):
+def write_xlsx_ll(fpath, data, style_func=None):
     wb = openpyxl.Workbook()
     ws = wb.active
-    write_ws_ll(ws, data)
+    write_ws_ll(ws, data, style_func)
     wb.save(fpath)
     wb.close()
 
-def write_ws_ll(ws, data):
+def write_ws_ll(ws, data, style_func=None):
     for i, row in enumerate(data, 1):
         for j, value in enumerate(row, 1):
-            ws.cell(row=i, column=j, value=value)
+            write_cell(ws, i, j, value, style_func)
 
 def write_csv_ll(fpath, data):
     writer = csv.writer(open(fpath, "w", encoding="utf_8_sig"))
     writer.writerows(data)
 
 # data: list of dict
-def write_xlsx_dict(fpath, header, data):
+def write_xlsx_dict(fpath, header, data, style_func=None):
     wb = openpyxl.Workbook()
     ws = wb.active
     #ws2 = wb.create_sheet(title="Sheet2")
-    write_ws_dict(ws, header, data)
+    write_ws_dict(ws, header, data, style_func)
     wb.save(fpath)
     wb.close()
 
 # data: list of dict
-def write_ws_dict(ws, header, data):
+def write_ws_dict(ws, header, data, style_func):
     for j, key in enumerate(header, 1):
         ws.cell(row=1, column=j, value=key)
     for i, row in enumerate(data, 2):
         for j, key in enumerate(header, 1):
             value = row.get(key, None)
-            ws.cell(row=i, column=j, value=value)
+            write_cell(ws, i, j, value, style_func)
 
 def write_csv_dict(fpath, header, data):
     writer = csv.DictWriter(open(fpath, "w", encoding="utf_8_sig"), header)
     writer.writeheader()
     for row in data:
         writer.writerow(row)
+
+def write_cell(ws, i, j, value, style_func):
+    cell = ws.cell(row=i, column=j, value=value)
+    if type(value) is str and value.startswith("https://") and " " not in value:
+        cell.hyperlink = value
+    if style_func is not None:
+        style_func(cell)
 

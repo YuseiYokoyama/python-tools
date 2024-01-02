@@ -30,6 +30,15 @@ def get_after(text, phrase):
 def get_inner(text, start, end):
     return text.split(start)[1].split(end)[0]
 
+def get_common_head(text_left, text_right):
+    text_common = []
+    for l, r in zip(text_left, text_right):
+        if l == r:
+            text_common.append(l)
+        else:
+            break
+    return "".join(text_common)
+
 #marks = ["：", ":", " - ", "(", "（"] # )
 def any_str_in(marks, target):
     for mark in marks:
