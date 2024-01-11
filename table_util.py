@@ -8,7 +8,7 @@ def load_as_list(fpath):
         return load_xlsx_as_list(fpath)
     else:
         fpath = os.path.splitext(fpath)[0] + ".csv"
-        return list(csv.reader(open(fpath, encoding="utf_8_sig")))
+        return list(csv.reader(open(fpath, encoding="utf-16")))
 
 # use `data_only=True` to get calculated value 
 def load_xlsx_as_list(fname, **kwargs):
@@ -58,7 +58,7 @@ def load_ws_as_dict(ws):
     return data
 
 def load_csv_as_dict(fpath):
-    reader = csv.DictReader(open(fpath, encoding="utf_8_sig"))
+    reader = csv.DictReader(open(fpath, encoding="utf-16"))
     data = [row for row in reader]
     return data
 
@@ -75,7 +75,7 @@ def write_ws_ll(ws, data, style_func=None):
             write_cell(ws, i, j, value, style_func)
 
 def write_csv_ll(fpath, data):
-    writer = csv.writer(open(fpath, "w", encoding="utf_8_sig"))
+    writer = csv.writer(open(fpath, "w", encoding="utf-16"))
     writer.writerows(data)
 
 # data: list of dict
@@ -97,7 +97,7 @@ def write_ws_dict(ws, header, data, style_func):
             write_cell(ws, i, j, value, style_func)
 
 def write_csv_dict(fpath, header, data):
-    writer = csv.DictWriter(open(fpath, "w", encoding="utf_8_sig"), header)
+    writer = csv.DictWriter(open(fpath, "w", encoding="utf-16"), header)
     writer.writeheader()
     for row in data:
         writer.writerow(row)
