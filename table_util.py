@@ -96,8 +96,8 @@ def write_ws_dict(ws, header, data, style_func):
             value = row.get(key, None)
             write_cell(ws, i, j, value, style_func)
 
-def write_csv_dict(fpath, header, data):
-    writer = csv.DictWriter(open(fpath, "w", encoding="utf-16"), header)
+def write_csv_dict(fpath, header, data, **kwargs):
+    writer = csv.DictWriter(open(fpath, "w", encoding="utf-16"), header, **kwargs)
     writer.writeheader()
     for row in data:
         writer.writerow(row)
