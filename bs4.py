@@ -1,5 +1,5 @@
 import requests
-from cachecontrol import CacheControl 
+from cachecontrol import CacheControl
 from cachecontrol.caches import FileCache
 from bs4 import BeautifulSoup
 
