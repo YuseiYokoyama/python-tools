@@ -104,7 +104,7 @@ def write_csv_dict(fpath, header, data, **kwargs):
 
 def write_cell(ws, i, j, value, style_func):
     cell = ws.cell(row=i, column=j, value=value)
-    if type(value) is str and value.startswith("https://") and " " not in value:
+    if type(value) is str and (value.startswith("https://") or value.startswith("http://")) and " " not in value:
         cell.hyperlink = value
     if style_func is not None:
         style_func(cell)

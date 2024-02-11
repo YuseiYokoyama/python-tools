@@ -14,12 +14,14 @@ def cheetsheet():
     print(s.translate(str.maketrans('ot', 'OT', 'n')))
     # Oe TwO Oe TwO Oe
 
+# not include phrase
 def get_before(text, phrase):
     i = text.find(phrase)
     if i == -1:
         raise ValueError(f"'{text}' has no '{phrase}'")
     return text[:i]
 
+# not include phrase
 def get_after(text, phrase):
     i = text.find(phrase)
     if i == -1:
@@ -40,7 +42,7 @@ def get_common_head(text_left, text_right):
     return "".join(text_common)
 
 #marks = ["：", ":", " - ", "(", "（"] # )
-def any_str_in(marks, target):
+def any_str_in(marks, target):#HACK slow, not good algorithm, impl regex version also
     for mark in marks:
         if mark in target:
             return True
