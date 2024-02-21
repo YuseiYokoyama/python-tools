@@ -57,10 +57,32 @@ def load_ws_as_dict(ws):
         data.append(one)
     return data
 
-def load_csv_as_dict(fpath):
-    reader = csv.DictReader(open(fpath, encoding="utf-16"))
+def load_csv_as_dict(fpath, encoding=None):
+    if encoding is None:
+        encoding = guess_utf_encoding(fpath)
+    reader = csv.DictReader(open(fpath, encoding=encoding))
     data = [row for row in reader]
     return data
+
+def guess_utf_encoding(fpath):
+    with open(fpath, "rb") as f:
+        beginning = f.read(4)
+        #NOTE The order of these if-statements is important. otherwise UTF32 LE may be detected as UTF16 LE as well.
+        if beginning == b'\x00\x00\xfe\xff':
+            return "utf-32-be"
+        elif beginning == b'\xff\xfe\x00\x00':
+            return "utf-32-le"
+        elif beginning[0:3] == b'\xef\xbb\xbf':
+            print("UTF-8")
+            return "utf-8-sig"
+        elif beginning[0:2] == b'\xff\xfe':
+            return "utf-16-le"
+        elif beginning[0:2] == b'\xfe\xff':
+            print("UTF-16 BE")
+            return "utf-16-be"
+        else:
+            #NOTE handle unknown as utf-8
+            return "utf-8"
 
 def write_xlsx_ll(fpath, data, style_func=None):
     wb = openpyxl.Workbook()
@@ -108,4 +130,11 @@ def write_cell(ws, i, j, value, style_func):
         cell.hyperlink = value
     if style_func is not None:
         style_func(cell)
+
+from openpyxl.styles import PatternFill
+ptn_fill_gray = PatternFill(patternType="solid", fgColor="999999")
+def sample_style_func(cell):
+    # ref. https://openpyxl.readthedocs.io/en/stable/api/openpyxl.cell.cell.html
+    if cell.row % 2 == 0:
+        cell.fill = ptn_fill_gray
 

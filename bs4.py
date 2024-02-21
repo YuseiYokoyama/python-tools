@@ -69,7 +69,7 @@ def cheetsheet(url):
         url = f"https://hoge.com?page={page}"
         response = session.get(url)
         if not response.from_cache:
-            time.sleep(1 + 3 * random.random())
+            time.sleep(1 + 3 * random.random() * 2)
 
     # raw
     requests.get(url)
