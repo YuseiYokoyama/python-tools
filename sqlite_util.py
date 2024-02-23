@@ -38,8 +38,11 @@ def dump_table_to_csv(fpath, cur, table_name):
         csv_writer = csv.writer(f)
         cur.execute(f"SELECT * FROM {table_name}")
         rows = cur.fetchall()
-        print('[description[0] for description in cursor.description]') # debug
-        print([description[0] for description in cur.description]) # debug
+        header = get_column_name_list_from_description(cur)
+        csv_writer.writerow(header)
         for row in rows:
             csv_writer.writerow(row)
+
+def get_column_name_list_from_description(cur):
+    return [description[0] for description in cur.description]
 
