@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "mypyutil"
+version = "0.1.0"
+description = ""
+authors = ["curoa <yuuseitori@gmail.com>"]
+readme = "README.rst"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
