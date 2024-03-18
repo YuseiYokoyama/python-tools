@@ -2,6 +2,28 @@ import csv
 import os
 
 import openpyxl
+from functools import wraps
+from inspect import getfullargspec
+
+def deco_fname_check(ftype):
+    def _deco_fname_check(f):
+        argspec = getfullargspec(f)
+        argument_name = "fpath"
+        argument_index = argspec.args.index(argument_name)
+        @wraps(f)
+        def wrapper(*args, **kwargs):
+            if argument_index < len(args):
+                value = args[argument_index]
+            else:
+                value = kwargs[argument_name]
+            if not value.endswith(argument_name):
+                msg = f"file name maybe wrong: expected ends with {ftype} but get {value}"
+                print('\033[31m' + msg + '\033[0m')
+            # do something with value
+            return f(*args, **kwargs)
+        return wrapper
+    return _deco_fname_check
+
 
 def load_as_list(fpath):
     if fpath.endswith(".xlsx") and os.path.exists(fpath):
@@ -84,6 +106,7 @@ def guess_utf_encoding(fpath):
             #NOTE handle unknown as utf-8
             return "utf-8"
 
+@deco_fname_check("xlsx")
 def write_xlsx_ll(fpath, data, style_func=None):
     wb = openpyxl.Workbook()
     ws = wb.active
@@ -96,11 +119,13 @@ def write_ws_ll(ws, data, style_func=None):
         for j, value in enumerate(row, 1):
             write_cell(ws, i, j, value, style_func)
 
+@deco_fname_check("csv")
 def write_csv_ll(fpath, data):
     writer = csv.writer(open(fpath, "w", encoding="utf-16"))
     writer.writerows(data)
 
 # data: list of dict
+@deco_fname_check("xlsx")
 def write_xlsx_dict(fpath, header, data, style_func=None):
     wb = openpyxl.Workbook()
     ws = wb.active
@@ -118,6 +143,7 @@ def write_ws_dict(ws, header, data, style_func):
             value = row.get(key, None)
             write_cell(ws, i, j, value, style_func)
 
+@deco_fname_check("csv")
 def write_csv_dict(fpath, header, data, **kwargs):
     writer = csv.DictWriter(open(fpath, "w", encoding="utf-16"), header, **kwargs)
     writer.writeheader()
