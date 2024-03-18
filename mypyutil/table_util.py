@@ -16,7 +16,7 @@ def deco_fname_check(ftype):
                 value = args[argument_index]
             else:
                 value = kwargs[argument_name]
-            if not value.endswith(argument_name):
+            if not value.endswith(ftype):
                 msg = f"file name maybe wrong: expected ends with {ftype} but get {value}"
                 print('\033[31m' + msg + '\033[0m')
             # do something with value
