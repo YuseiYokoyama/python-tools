@@ -106,6 +106,18 @@ def guess_utf_encoding(fpath):
             #NOTE handle unknown as utf-8
             return "utf-8"
 
+def write_ll(fpath, data):
+    if fpath.endswith(".csv"):
+        write_csv_ll(fpath, data)
+    else:
+        write_xlsx_ll(fpath, data)
+
+def write_dict(fpath, header, data):
+    if fpath.endswith(".csv"):
+        write_csv_dict(fpath, header, data)
+    else:
+        write_xlsx_dict(fpath, header, data)
+
 @deco_fname_check("xlsx")
 def write_xlsx_ll(fpath, data, style_func=None):
     wb = openpyxl.Workbook()
