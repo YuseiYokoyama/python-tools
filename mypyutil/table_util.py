@@ -32,14 +32,14 @@ def load_as_list(fpath):
         fpath = os.path.splitext(fpath)[0] + ".csv"
         return list(csv.reader(open(fpath, encoding="utf-16")))
 
-# use `data_only=True` to get calculated value 
+# use `data_only=True` to get calculated value
 def load_xlsx_as_list(fname, **kwargs):
     wb = openpyxl.load_workbook(fname, **kwargs)
     #print('wb.sheetnames', wb.sheetnames) # debug
     ws = wb.active
     return load_ws_as_list(ws)
 
-# use `data_only=True` to get calculated value 
+# use `data_only=True` to get calculated value
 def load_ws_as_list(ws):
     data = []
     for row in ws.iter_rows():
@@ -56,14 +56,14 @@ def load_as_dict(fpath):
         fpath = os.path.splitext(fpath)[0] + ".csv"
         return load_csv_as_dict(fpath)
 
-# use `data_only=True` to get calculated value 
+# use `data_only=True` to get calculated value
 def load_xlsx_as_dict(fpath, sheet_name=None, **kwargs): #TODO rename
     wb = openpyxl.load_workbook(fpath, **kwargs)
     if sheet_name is None:
         ws = wb.active
     else:
         ws = wb[sheet_name]
-    return load_ws_as_dict(ws) 
+    return load_ws_as_dict(ws)
 
 def load_ws_as_dict(ws):
     header = []
