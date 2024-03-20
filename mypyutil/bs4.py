@@ -5,8 +5,6 @@ from requests_cache import CachedSession
 from bs4 import BeautifulSoup
 
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
 
 def selenium_get(url, fpath_cache, func_check_valid, func_handle=None, flg_waiting=True):
     if not os.path.exists(fpath_cache):

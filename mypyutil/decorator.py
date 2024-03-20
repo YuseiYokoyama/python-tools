@@ -22,7 +22,7 @@ def my_logger(f):
 
 # usage: @tag("h1")
 def html_tag(tag_name):
-    def _html_tag(f):
+    def _deco(f):
         @wraps(f)
         def _wrapper(*args, **kwargs):
             # 前処理
@@ -30,8 +30,9 @@ def html_tag(tag_name):
             # 後処理
             return f'<{tag_name}>{v}</{tag_name}>'
         return _wrapper
-    return _html_tag
+    return _deco
 
+# get arg by name
 from inspect import getfullargspec
 def decorator(argument_name):
     def _decorator(f):
