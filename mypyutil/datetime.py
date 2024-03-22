@@ -1,7 +1,7 @@
 import datetime
 
 now = datetime.datetime.now()
-now.isoformat()
+now.isoformat() # 2023-04-01T05:00:30.001000
 
 d = datetime.date.fromisoformat("2023-04-01")
 t = datetime.time.fromisoformat('05:00:30.001000')
