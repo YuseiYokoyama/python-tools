@@ -82,7 +82,6 @@ def load_ws_as_dict(ws):
 def load_csv_as_dict(fpath, encoding=None):
     if encoding is None:
         encoding = guess_utf_encoding(fpath)
-    print('encoding', encoding) # debug
     reader = csv.DictReader(open(fpath, encoding=encoding))
     data = [row for row in reader]
     return data
