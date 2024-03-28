@@ -30,7 +30,7 @@ def load_as_list(fpath):
         return load_xlsx_as_list(fpath)
     else:
         fpath = os.path.splitext(fpath)[0] + ".csv"
-        return list(csv.reader(open(fpath, encoding="utf-16")))
+        return load_csv_as_list(fpath)
 
 # use `data_only=True` to get calculated value
 def load_xlsx_as_list(fname, **kwargs):
@@ -48,6 +48,9 @@ def load_ws_as_list(ws):
             one.append(cell.value)
         data.append(one)
     return data
+
+def load_csv_as_list(fpath, encoding="utf-16"):
+    return list(csv.reader(open(fpath, encoding=encoding)))
 
 def load_as_dict(fpath):
     if fpath.endswith(".xlsx") and os.path.exists(fpath):

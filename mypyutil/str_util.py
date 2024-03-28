@@ -14,6 +14,8 @@ def cheetsheet():
     print(s.translate(str.maketrans('ot', 'OT', 'n')))
     # Oe TwO Oe TwO Oe
 
+    s.isnumeric()
+
 # not include phrase
 def get_before(text, phrase):
     i = text.find(phrase)
