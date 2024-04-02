@@ -18,7 +18,7 @@ def deco_fname_check(ftype):
                 value = kwargs[argument_name]
             if not value.endswith(ftype):
                 msg = f"file name maybe wrong: expected ends with {ftype} but get {value}"
-                print('\033[31m' + msg + '\033[0m')
+                print('\033[31m' + msg + '\033[0m') # ]] fix vim indent
             # do something with value
             return f(*args, **kwargs)
         return wrapper
@@ -51,6 +51,16 @@ def load_ws_as_list(ws):
 
 def load_csv_as_list(fpath, encoding="utf-16"):
     return list(csv.reader(open(fpath, encoding=encoding)))
+
+def tie_key_value(header, value_list):
+    data = []
+    for row in value_list:
+        new = {}
+        for k, v in zip(header, row):
+            new[k] = v
+        data.append(new)
+    return data
+
 
 def load_as_dict(fpath):
     if fpath.endswith(".xlsx") and os.path.exists(fpath):
