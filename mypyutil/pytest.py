@@ -7,7 +7,7 @@ test_cases = [
         ("ノルウェーに旅行に行ったことがあります",  "カナダに旅行に行ったことがあります", "non_entailment"),
         ("父は北海道に住んでいます",  "父は沖縄で暮らしています", "contradiction"),
         ]
-@pytest.mark.parametrize(("text1", "text2", "expected"), test_cases)
+@pytest.mark.parametrize("text1, text2, expected", test_cases)
 def test_main(text1, text2, expected):
     pred = model(text1, text2)
     assert pred == expected
