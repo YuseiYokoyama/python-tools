@@ -44,9 +44,13 @@ def cheetsheet(url):
 
     # session
     session = CachedSession()
-    print('session.cache') # debug
+    print('session.cache.db_path') # debug
     pp(session.cache.db_path) # debug
-    response = session.get(url)
+    headers = {
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+            }
+    response = session.get(url, headers=headers)
     print('response.from_cache', response.from_cache) # debug
     print('response.created_at', response.created_at) # debug
     print('response.expires', response.expires) # debug
