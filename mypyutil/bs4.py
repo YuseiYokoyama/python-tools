@@ -59,6 +59,7 @@ def cheetsheet(url):
     soup = BeautifulSoup(response.content, "html.parser")
     tag_title = soup.find(class_="sg-corporate-name")
     tag_body = soup.find("article", class_="pg-body")
+    tag_body.attrs.get("class") #TEST
     url = soup.find("a").get("href")
     text = tag_title.text + "\n" + tag_body.text
     return tag_title.text, text

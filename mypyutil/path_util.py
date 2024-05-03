@@ -15,7 +15,7 @@ def cheetsheet():
         pass
 
 def use_glob(dirpath):
-    targets = glob.glob(os.path.join(dirpath, "*.csv"))
+    targets = glob.glob(os.path.join(dirpath, "*.csv")) # type list
     for fpath in targets:
         print('fpath', fpath) # debug
 
