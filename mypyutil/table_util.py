@@ -4,6 +4,12 @@ import os
 import openpyxl
 from functools import wraps
 from inspect import getfullargspec
+from pathlib import Path
+
+def to_path(fpath):
+    if type(fpath) == str:
+        fpath = Path(fpath)
+    return fpath
 
 def deco_fname_check(ftype):
     def _deco_fname_check(f):
@@ -13,11 +19,11 @@ def deco_fname_check(ftype):
         @wraps(f)
         def wrapper(*args, **kwargs):
             if argument_index < len(args):
-                value = args[argument_index]
+                fpath = to_path(args[argument_index])
             else:
-                value = kwargs[argument_name]
-            if not value.endswith(ftype):
-                msg = f"file name maybe wrong: expected ends with {ftype} but get {value}"
+                fpath = to_path(kwargs[argument_name])
+            if fpath.suffix[1:] != ftype:
+                msg = f"file name maybe wrong: expected ends with {ftype} but get {fpath}"
                 print('\033[31m' + msg + '\033[0m') # ]] fix vim indent
             # do something with value
             return f(*args, **kwargs)
@@ -26,7 +32,8 @@ def deco_fname_check(ftype):
 
 
 def load_as_list(fpath):
-    if fpath.endswith(".xlsx") and os.path.exists(fpath):
+    fpath = to_path(fpath)
+    if fpath.suffix == ".xlsx" and fpath.exists():
         return load_xlsx_as_list(fpath)
     else:
         fpath = os.path.splitext(fpath)[0] + ".csv"
@@ -63,7 +70,8 @@ def tie_key_value(header, value_list):
 
 
 def load_as_dict(fpath):
-    if fpath.endswith(".xlsx") and os.path.exists(fpath):
+    fpath = to_path(fpath)
+    if fpath.suffix == ".xlsx" and fpath.exists():
         return load_xlsx_as_dict(fpath)
     else:
         fpath = os.path.splitext(fpath)[0] + ".csv"
@@ -123,13 +131,15 @@ def guess_utf_encoding(fpath):
             return "utf-8"
 
 def write_ll(fpath, data):
-    if fpath.endswith(".csv"):
+    fpath = to_path(fpath)
+    if fpath.suffix == ".csv":
         write_csv_ll(fpath, data)
     else:
         write_xlsx_ll(fpath, data)
 
 def write_dict(fpath, header, data):
-    if fpath.endswith(".csv"):
+    fpath = to_path(fpath)
+    if fpath.suffix == ".csv":
         write_csv_dict(fpath, header, data)
     else:
         write_xlsx_dict(fpath, header, data)
@@ -173,6 +183,7 @@ def write_ws_dict(ws, header, data, style_func):
 
 @deco_fname_check("csv")
 def write_csv_dict(fpath, header, data, **kwargs):
+    fpath = to_path(fpath)
     writer = csv.DictWriter(open(fpath, "w", encoding="utf-16"), header, **kwargs)
     writer.writeheader()
     for row in data:
