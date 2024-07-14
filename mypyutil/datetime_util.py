@@ -19,9 +19,9 @@ def cheetsheet():
 
 def get_first_of_next_month(date):
     if date.month == 12:
-        first_of_next_month = datetime(date.year + 1, 1, 1)
+        first_of_next_month = datetime.date(date.year + 1, 1, 1)
     else:
-        first_of_next_month = datetime(date.year, date.month + 1, 1)
+        first_of_next_month = datetime.date(date.year, date.month + 1, 1)
     return first_of_next_month
 
 def get_week_start(date):
