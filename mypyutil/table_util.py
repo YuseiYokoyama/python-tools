@@ -181,6 +181,7 @@ def write_ws_dict(ws, header, data, style_func):
             value = row.get(key, None)
             write_cell(ws, i, j, value, style_func)
 
+# use `kwargs={extrasaction: "ignore"}`
 @deco_fname_check("csv")
 def write_csv_dict(fpath, header, data, **kwargs):
     fpath = to_path(fpath)
