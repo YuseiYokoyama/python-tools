@@ -49,11 +49,10 @@ def send_email(msg, smtp_config):
 def make_mime(to_email, mail_config):
     sender_name = mail_config["sender_name"]
     sender = mail_config["sender"]
-    to_email = mail_config["to_email"]
     frm_email = formataddr((sender_name, sender))
     subject = mail_config["subject"]
     message = open(mail_config["fpath_text"], encoding="utf_8_sig").read()
-    fpath = mail_config["fpath_attachment"]
+    fpath = mail_config.get("fpath_attachment", None)
     mime = createMailMessageMIME(frm_email, to_email, subject, message, fpath)
     return mime
 
