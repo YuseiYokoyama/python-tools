@@ -14,14 +14,13 @@ from email.mime.application import MIMEApplication
 from email.header import Header
 from email.utils import formataddr, formatdate
 
-def createMailMessageMIME(frm, to, subject, message, fpath=None):
+def createMailMessageMIME(frm, to, subject, message, subtype, fpath=None):
     # MIMETextを作成
     msg = MIMEMultipart()
     msg['Subject'] = subject
     msg['From'] = frm
     msg['To'] = to
-    #msg.attach(MIMEText(message, 'plain', 'utf-8'))
-    msg.attach(MIMEText(message, 'html', 'utf-8'))
+    msg.attach(MIMEText(message, subtype, 'utf-8'))
 
     # 添付ファイルの設定
     if fpath:
@@ -52,9 +51,17 @@ def make_mime(to_email, mail_config):
     frm_email = formataddr((sender_name, sender))
     subject = mail_config["subject"]
     message = open(mail_config["fpath_text"], encoding="utf_8_sig").read()
+    subtype = get_subtype(mail_config["fpath_text"])
     fpath = mail_config.get("fpath_attachment", None)
-    mime = createMailMessageMIME(frm_email, to_email, subject, message, fpath)
+    mime = createMailMessageMIME(frm_email, to_email, subject, message, subtype, fpath)
     return mime
+
+def get_subtype(fpath_text):
+    if fpath_text.endswith(".txt"):
+        return "plain"
+    if fpath_text.endswith(".html"):
+        return "html"
+    raise NotImplementedError(fpath_text)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser("cmd", description="This is hogehoge")
