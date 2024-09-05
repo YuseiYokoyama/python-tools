@@ -3,6 +3,7 @@ def simple():
     import shtab
     parser = argparse.ArgumentParser("cmd", description="This is hogehoge")
     parser.add_argument("filename").complete = shtab.FILE
+    parser.add_argument("collection_id", type=int)
     parser.add_argument('-o', '--optional', default="hoge")
     parser.add_argument('-f', '--flg_force', default=False, action='store_true')
     args = parser.parse_args()
