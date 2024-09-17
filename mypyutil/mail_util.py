@@ -1,91 +1,66 @@
 from pprint import pprint as pp
 from pprint import pformat as pf
 
-import os
-import yaml
-import random
-import time
-import ssl
+import sll
 from smtplib import SMTP, SMTP_SSL
-
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
-from email.header import Header
-from email.utils import formataddr, formatdate
+from email.utils import formataddr
 
-def createMailMessageMIME(frm, to, subject, message, subtype, fpath=None):
+def make_mime(sender_name, sender_addr, to_addr, subject, message, subtype="plain"):
     # MIMETextを作成
-    msg = MIMEMultipart()
-    msg['Subject'] = subject
-    msg['From'] = frm
-    msg['To'] = to
-    msg.attach(MIMEText(message, subtype, 'utf-8'))
+    mime = MIMEMultipart()
+    mime['From'] = formataddr((sender_name, sender_addr))
+    mime['To'] = to_addr
+    mime['Subject'] = subject
+    mime.attach(MIMEText(message, subtype, 'utf-8'))
+    return mime
 
+def attach_files(mime, fpath_list):
     # 添付ファイルの設定
-    if fpath:
+    for fpath in fpath_list:
         with open(fpath, 'rb') as fp:
             attach_file = MIMEApplication(fp.read())
             attach_file.add_header(
-                "Content-Disposition", 
-                "attachment", 
+                "Content-Disposition",
+                "attachment",
                 filename=os.path.basename(fpath)
             )
-            msg.attach(attach_file)
-    return msg
-
-def send_email(msg, smtp_config):
-    account = smtp_config["account"]
-    password = smtp_config["password"]
-    host = smtp_config["host"]
-    port = smtp_config["port"]
-    context = ssl.create_default_context()
-    server = SMTP_SSL(host, port, context=context)
-    server.login(account, password)
-    server.send_message(msg)
-    server.quit()
-
-def make_mime(to_email, mail_config):
-    sender_name = mail_config["sender_name"]
-    sender = mail_config["sender"]
-    frm_email = formataddr((sender_name, sender))
-    subject = mail_config["subject"]
-    message = open(mail_config["fpath_text"], encoding="utf_8_sig").read()
-    subtype = get_subtype(mail_config["fpath_text"])
-    fpath = mail_config.get("fpath_attachment", None)
-    mime = createMailMessageMIME(frm_email, to_email, subject, message, subtype, fpath)
+            mime.attach(attach_file)
     return mime
 
-def get_subtype(fpath_text):
-    if fpath_text.endswith(".txt"):
-        return "plain"
-    if fpath_text.endswith(".html"):
-        return "html"
-    raise NotImplementedError(fpath_text)
+def send_email(mime, smtp_config):
+    context = ssl.create_default_context()
+    server = SMTP_SSL(smtp_config["host"], smtp_config["port"], context=context)
+    server.login(smtp_config["account"], smtp_config["password"])
+    server.send_message(mime)
+    server.quit()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser("cmd", description="This is hogehoge")
     args = parser.parse_args()
 
-    """ config.yml
-    mail:
-      sender_name: "株式会社ほげ"
-      sender: "hoge@rfuga.com"
-      subject: "タイトル"
-      fpath_text: "html形式のメール本文"
-      fpath_attachment: "添付ファイル.pdf"
-    smtp:
-      account: "hoge@fuga.com"
-      password: "piyo"
-      host: 'sample.host.ne.jp'
-      port: 465
-    """
+    sender = "hoge@fuga.com"
 
-    mime = make_mime("yuuseitori@gmail.com", config["mail"])
-    send_email(mime, config["smtp"])
+    sender_name = "株式会社ほげ"
+    sender_addr = sender
+    to_addr = "piyo@piyo.com"
+    subject = "タイトル"
+    message = "<b>これは本文です</b>"
+
+    fpath_list = ["添付ファイル.pdf", "添付ファイル2.pdf"]
+
+    smtp_config = {
+      account: sender,
+      password: "piyo",
+      host: 'sample.host.ne.jp',
+      port: 465,
+    }
+
+    mime = make_mime(sender_name, sender_addr, to_addr, subject, message, subtype="html")
+    attach_files(mime, fpath_list)
+    send_email(mime, smtp_config)
 
     print('\033[32m' + 'end' + '\033[0m') # ]] fix indent
-
-
-
 
