@@ -1,7 +1,7 @@
 from pprint import pprint as pp
 from pprint import pformat as pf
 
-import sll
+import ssl
 from smtplib import SMTP, SMTP_SSL
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
