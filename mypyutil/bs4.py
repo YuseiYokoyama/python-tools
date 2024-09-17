@@ -39,8 +39,24 @@ def scroll_page(driver): # you can use as func_handle
         prev_height = new_height
         scroll_count += 1
 
+def get_text_from_soup_list(soup_list, joiner=""):
+    text = []
+    for soup in soup_list:
+        text.append(soup.text)
+    return joiner.join(text)
+
 url = "https://requests-cache.readthedocs.io/en/stable/user_guide/general.html"
 def cheetsheet(url):
+
+    # bs4
+
+    html_text = open(fpath).read()
+    soup = BeautifulSoup(html_text, "html.parser")
+    soup.find("a")
+    soup.find_all("a")
+    soup.select_one(".by_css_selector")
+    soup.select(".by_css_selector")
+    url = soup_a_tag["href"]
 
     # session
     session = CachedSession()
