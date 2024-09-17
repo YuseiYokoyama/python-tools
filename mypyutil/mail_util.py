@@ -1,6 +1,7 @@
 from pprint import pprint as pp
 from pprint import pformat as pf
 
+import os
 import ssl
 from smtplib import SMTP, SMTP_SSL
 from email.mime.multipart import MIMEMultipart
@@ -19,6 +20,8 @@ def make_mime(sender_name, sender_addr, to_addr, subject, message, subtype="plai
 
 def attach_files(mime, fpath_list):
     # 添付ファイルの設定
+    if fpath_list is None:
+        return mime
     for fpath in fpath_list:
         with open(fpath, 'rb') as fp:
             attach_file = MIMEApplication(fp.read())
