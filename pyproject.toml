@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mypyutil"
-version = "0.2.5"
+version = "0.2.6"
 description = ""
 authors = ["curoa <yuuseitori@gmail.com>"]
 readme = "README.rst"
