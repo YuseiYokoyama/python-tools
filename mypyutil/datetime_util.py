@@ -1,4 +1,5 @@
 import datetime
+from dateutil.relativedelta import relativedelta
 
 def cheetsheet():
     now = datetime.datetime.now()
@@ -17,15 +18,34 @@ def cheetsheet():
     # weeks, days, hours, minutes, seconds, milliseconds, microseconds
     delta = datetime.timedelta(hours=3)
 
-def get_first_of_next_month(date):
-    if date.month == 12:
-        first_of_next_month = datetime.date(date.year + 1, 1, 1)
+def using_dateutil_next_month(date):
+    rd = relativedelta(months=+1)
+    for i in range(12):
+        date += rd
+        print('date') # debug
+        print(date) # debug
+
+# d: Date, day: int
+def get_day_of_next_month(d, day):
+    if d.month == 12:
+        target_date = d.replace(d.year + 1, 1)
     else:
-        first_of_next_month = datetime.date(date.year, date.month + 1, 1)
-    return first_of_next_month
+        target_date = d.replace(month=d.month + 1)
+    return target_date
 
 def get_week_start(date):
     days_to_monday = date.weekday()
     monday = date - datetime.timedelta(days=days_to_monday)
     return monday
+
+def get_next_day_8am(dt):
+    """与えられたdatetimeオブジェクトの次の朝8時のdatetimeオブジェクトを返す"""
+    next_day_8am = dt.replace(hour=8, minute=0, second=0, microsecond=0)
+    if next_day_8am <= dt:
+        next_day_8am += datetime.timedelta(days=1)
+    return next_day_8am
+
+def get_next_monty_day(d, day):
+    rd = relativedelta(months=+1, day=day)
+    return d + rd
 

@@ -37,6 +37,12 @@ class BrowserController():
         else:
             url = f"https://salesnow.jp/db/industries/entertainment/subIndustries/hotel-staying/page/{page}"
         self.driver.get(url)
+        selector = "#__BVID__13"
+        input_user_id = self.driver.find_element(By.CSS_SELECTOR, selector)
+        input_user_id.send_keys(user_id)
+        selector = "#__BVID__16"
+        input_password = self.driver.find_element(By.CSS_SELECTOR, selector)
+        input_password.send_keys(password)
 
     def go_next_page(self):
         selector = "#__next > div.Layout_container__hieOS > div.Layout_contentContainer__7mnrB > main > div.SearchResult_container__Mn1_C > div.Pagination_container__tEfKA > a"

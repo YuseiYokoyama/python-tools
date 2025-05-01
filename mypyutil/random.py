@@ -1,6 +1,9 @@
 import random
 import uuid
 
+# 0 <= r < 1 float
+random.random()
+
 # 0 <= (int) r < 100
 r = random.randrange(100)
 

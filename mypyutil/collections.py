@@ -1,6 +1,6 @@
 from collections import Counter, defaultdict
 
-def cheetsheet():
+def cheetsheet_for_counter():
     print(c.most_common()[0])
     # ('a', 4)
 
