@@ -1,3 +1,6 @@
+from pprint import pprint as pp
+from pprint import pformat as pf
+
 from functools import wraps
 import datetime
 
@@ -19,6 +22,21 @@ def my_logger(f):
 
         return v
     return _wrapper
+
+def log_arguments_on_error(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            out = {
+                "func": func.__name__,
+                "args": args,
+                "kwargs": kwargs,
+            }
+            pp(out)
+            raise e
+    return wrapper
 
 # usage: @tag("h1")
 def html_tag(tag_name):

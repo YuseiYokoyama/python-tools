@@ -55,10 +55,10 @@ if __name__ == '__main__':
     fpath_list = ["添付ファイル.pdf", "添付ファイル2.pdf"]
 
     smtp_config = {
-      account: sender,
-      password: "piyo",
-      host: 'sample.host.ne.jp',
-      port: 465,
+      "account": sender,
+      "password": "piyo",
+      "host": 'sample.host.ne.jp',
+      "port": 465,
     }
 
     mime = make_mime(sender_name, sender_addr, to_addr, subject, message, subtype="html")

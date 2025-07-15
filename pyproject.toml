@@ -6,7 +6,7 @@ authors = ["curoa <yuuseitori@gmail.com>"]
 readme = "README.rst"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = ">3.10"
 
 
 [build-system]

@@ -2,6 +2,7 @@ import datetime
 from dateutil.relativedelta import relativedelta
 
 def cheetsheet():
+    today = datetime.date.today()
     now = datetime.datetime.now()
     now.isoformat() # 2023-04-01T05:00:30.001000
 
