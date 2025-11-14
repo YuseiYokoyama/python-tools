@@ -20,4 +20,6 @@ class Speaker(Enum):
             return Speaker.__members__[value]
         raise ValueError(f"can not make Speaker from {value}")
 
+if __name__ == '__main__':
+    speacker_op = Speaker(0)
 

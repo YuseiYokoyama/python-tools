@@ -25,6 +25,7 @@ class BrowserController():
     def make_driver(self, basic_implicitly_wait):
         options = webdriver.ChromeOptions()
         options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_argument("--headless=new")
         options.add_experimental_option('detach', True) # if False then remain open
         driver = webdriver.Chrome(options=options)
         driver.maximize_window()

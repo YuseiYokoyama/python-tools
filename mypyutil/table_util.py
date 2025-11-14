@@ -40,10 +40,13 @@ def load_as_list(fpath):
         return load_csv_as_list(fpath)
 
 # use `data_only=True` to get calculated value
-def load_xlsx_as_list(fname, **kwargs):
+def load_xlsx_as_list(fname, sheet_name=None, **kwargs):
     wb = openpyxl.load_workbook(fname, **kwargs)
     #print('wb.sheetnames', wb.sheetnames) # debug
-    ws = wb.active
+    if sheet_name is None:
+        ws = wb.active
+    else:
+        ws = wb[sheet_name]
     return load_ws_as_list(ws)
 
 # use `data_only=True` to get calculated value
